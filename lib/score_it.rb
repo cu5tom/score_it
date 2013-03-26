@@ -37,12 +37,12 @@ module ScoreIt
   
   module InstanceMethods
 
-    def score
+    def current_score
       score_attributes 
     end
     
     def score_in_percent
-      score / max_score * 100
+      current_score.to_f / max_score * 100
     end
 
     def max_score
@@ -61,7 +61,7 @@ module ScoreIt
     private
 
     def can_score? attribute
-      self.respond_to?(attribute) && !self.send(attribute).empty? && @score
+      self.respond_to?(attribute) && !self.send(attribute).nil? && !self.send(attribute).empty? && @score
     end
 
     def total_score
@@ -82,4 +82,4 @@ module ScoreIt
 
   end
 end
-#ActiveRecord::Base.send :include, ScoreIt
+ActiveRecord::Base.send :include, ScoreIt

@@ -32,7 +32,7 @@ describe "Scorable Class" do
 
     it "total score should be 0" do
       some_instance.stub(:scorable_attributes) { [] }
-      some_instance.score.should == 0
+      some_instance.current_score.should == 0
     end
     
   end
@@ -41,18 +41,18 @@ describe "Scorable Class" do
 
     it "score should not be 0 if value is present" do
       SomeClass.score_attributes [:attr1, 42]
-      some_instance.score.should_not == 0
+      some_instance.current_score.should_not == 0
     end
 
     it "score should be 0 if value is not present" do
       SomeClass.score_attributes [:attr1, 42]
       some_instance.attr1 = ""
-      some_instance.score.should == 0
+      some_instance.current_score.should == 0
     end
 
     it "total score should be the sum of all scores" do
       SomeClass.score_attributes [:attr1, 42], [:attr2, 18]
-      some_instance.score.should == 60
+      some_instance.current_score.should == 60
     end
 
     it "scores should be equal to the ones provided" do
@@ -70,7 +70,7 @@ describe "Scorable Class" do
     it "score should be less then max score" do
       SomeClass.score_attributes [:attr1, 42], [:attr2, 18]
       some_instance.attr1 = ""
-      current_score = some_instance.score
+      current_score = some_instance.current_score
       some_instance.max_score.should > current_score
       some_instance.max_score.should == 60
     end
