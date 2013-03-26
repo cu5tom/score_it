@@ -41,8 +41,12 @@ module ScoreIt
       score_attributes 
     end
     
-    def total_score
-      score
+    def score_in_percent
+      score / max_score * 100
+    end
+
+    def max_score
+      total_score
     end
 
     def scorable_attributes
@@ -51,16 +55,24 @@ module ScoreIt
 
     def score_for attribute
       @score = Hash[scorable_attributes][attribute]
-      self.respond_to?(attribute) && !self.send(attribute).empty? && @score ? @score : 0
+      can_score?(attribute) ? @score : 0
     end
 
     private
+
+    def can_score? attribute
+      self.respond_to?(attribute) && !self.send(attribute).empty? && @score
+    end
+
+    def total_score
+      scorable_attribute_values.inject(0) { |sum, value| sum += value }
+    end
 
     def scorable_attribute_names
       self.class.scorable_attribute_names
     end
 
-    def scorable_attribute_values    
+    def scorable_attribute_values
       self.class.scorable_attribute_values
     end
 
