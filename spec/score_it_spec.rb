@@ -60,6 +60,9 @@ describe "Scorable Class" do
       some_instance.score_for(:attr1).should == 42
     end
 
+    it "score of an unknown attribute should be 0" do
+      some_instance.score_for(:attr3).should == 0
+    end
   end
   
 end
